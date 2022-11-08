@@ -9,7 +9,7 @@ function App() {
         return(
             <div className="middle">
                 <div className="about">
-                    <p className="about-text">BORNA IS THE BEST BARBER SHOP THAT YOU CAN FIND IN ENTIRE WORLD, WITH LIMITED CLICKS, GETS YOUR HAIR DONE AS SOON AS POSSIBLE.</p>
+                    <p className="about-text">BORNA IS THE BEST BARBER SHOP THAT YOU CAN FIND IN ENTIRE WORLD, WITH LIMITED CLICKS, GET YOUR HAIR DONE AS SOON AS POSSIBLE.</p>
                 </div>
                 <div className='chair circleBase type1 dim pointer'> 
                      <img src={ReserveImg}/>
