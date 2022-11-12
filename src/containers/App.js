@@ -67,7 +67,7 @@ function App() {
             function ReserveDates() {
                 const [data,setData] = useState(null);
                 useEffect(() => {
-                    fetch('http://localhost:3005/masoodtable', {
+                    fetch('http://localhost:3000/masoodtable', {
                       method: 'get',
                       headers: {'Content-Type': 'application/json'},
                     }).then(res => res.json())
@@ -155,7 +155,7 @@ function App() {
                     setUserNumber(event.target.value)
                 }
                 function onButtonSubmit() {
-                    fetch('http://localhost:3005/masoodreserve', {
+                    fetch('http://localhost:3000/masoodreserve', {
                         method: 'put',
                         headers: {'Content-Type': 'application/json'},
                         body: JSON.stringify({
