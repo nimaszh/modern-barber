@@ -67,7 +67,7 @@ function App() {
             function ReserveDates() {
                 const [data,setData] = useState(null);
                 useEffect(() => {
-                    fetch('http://localhost:3000/masoodtable', {
+                    fetch('http://141.11.42.106:3000/masoodtable', {
                       method: 'get',
                       headers: {'Content-Type': 'application/json'},
                     }).then(res => res.json())
