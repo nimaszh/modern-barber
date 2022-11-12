@@ -38,7 +38,7 @@ function timeGenerator(date) {
         })
         
 }
-et i = 0
+let i = 0
 while(i < 365){
     timeGenerator(dateGenerator(i))
     i++
