@@ -38,11 +38,6 @@ function timeGenerator(date) {
         })
         
 }
-let i = 0
-while(i < 365){
-    timeGenerator(dateGenerator(i))
-    i++
-} 
 
 
 
