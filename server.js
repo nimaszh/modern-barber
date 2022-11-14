@@ -41,8 +41,15 @@ function timeGenerator(date) {
 
 
 
+
 app.get('/masoodtable' , (request,response) => {
-    pool.query('SELECT id,time,date,available FROM masoodbarber WHERE date=$1 OR date=$2 or date=$3 ORDER BY date,time ASC', [dateGenerator(1),dateGenerator(2),dateGenerator(3)])
+    pool.query('SELECT * FROM masoodbarber WHERE date=$1 OR date=$2 or date=$3 ORDER BY date,time ASC', [dateGenerator(1),dateGenerator(2),dateGenerator(3)])
+        .then(res => {response.json(res.rows)})
+        .catch(e => console.log(e.stack))
+})
+
+app.get('/adminmasoodtable' , (request,response) => {
+    pool.query('SELECT * FROM masoodbarber WHERE date=$1 OR date=$2 or date=$3 ORDER BY date,time ASC', [dateGenerator(0),dateGenerator(1),dateGenerator(2)])
         .then(res => {response.json(res.rows)})
         .catch(e => console.log(e.stack))
 })

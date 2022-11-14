@@ -4,10 +4,31 @@ import ReserveImg from './Reserve.png'
 import {useState , useEffect} from 'react'
 
 function App() {
+    const [route, setRoute] = useState(null);
+    function dayOfWeek(dayFromNow) {
+        const week = ['Sunday' ,
+                  'Monday',
+                  'Tuesday' ,
+                  'Wednesday' ,
+                  'Thursday' ,
+                  'Friday' ,
+                  'Saturday' ,
+                    
+             ]
+        let day = new Date().getDay() + dayFromNow
+        if(day > 6) {
+            day = day - 7
+       }
+        
+        
+        const wantedDate = week[day]
+
+        return wantedDate
+    }
 
     function Middle() {
     
-        const [route, setRoute] = useState(null);
+
 
 
         function Home() {
@@ -27,6 +48,7 @@ function App() {
             const [barber,chooseBarber] = useState(null);
             const [selectedService, setSelectedService] = useState(null)
             const [reserveId,setReserveId] = useState(null);
+            const [reserveDone,setreserveDone] = useState(false);
 
 
 
@@ -34,7 +56,10 @@ function App() {
                 return(
 
                     <div >
-                        <h1>.انتخاب کنید</h1>
+                        <div className='barber-select-top'>
+                            <h2 className='pointer dim back-button' onClick={() => {setRoute(null)}}>↩</h2>
+                        </div>
+                        <h1>Chose barber</h1>
                         <div className='barber-select'>
                             <p className='barber ba dim pointer' onClick={() => {chooseBarber('masood')}}>Masood</p>
                             <p className='barber ba dim pointer' onClick={() => {chooseBarber('taha')}}>Taha</p>
@@ -54,6 +79,9 @@ function App() {
                     )}
                 return(
                     <div>
+                        <div className='barber-select-top'>
+                            <h2 className='pointer dim back-button' onClick={() => {chooseBarber(null)}}>↩</h2>
+                        </div>
                         <h3>Choose Service</h3>
                         <div className='barber-select'>
                             <Service title={'Hair Cut'} time={'45 Min'}/>
@@ -81,7 +109,13 @@ function App() {
                     if(shift.available){
                         return(
                             <>
-                                <p className="white time bl br pointer dim" onClick={() => {setReserveId(shift.id)}}>{shift.time}</p>
+                                <p className="white time bl br pointer dim light-green " onClick={() => {setReserveId(shift.id)}}>{shift.time}</p>
+                            </>
+                        )
+                    } else{
+                        return(
+                            <>
+                                <p className="white time bl br pointer dim red">x</p>
                             </>
                         )
                     }
@@ -96,31 +130,9 @@ function App() {
                 }
 
                 function EachDay({value}){
-                    function dayOfWeek(dayFromNow) {
-                        const week = ['یکشنبه' ,
-                                  'دو شنبه',
-                                  'سه شنبه' ,
-                                  'چهارشنبه' ,
-                                  'پنج شنبه' ,
-                                  'جمعه' ,
-                                  'شنبه' ,
-                                    
-                             ]
-                        let day = new Date().getDay() + dayFromNow
-                        if(day > 6) {
-                            day = day - 7
-                       }
-                        
-                        
-                        const wantedDate = week[day]
-                
-                        return wantedDate
-                    }
-
-
                     let i = value
-                    i = i * 9
-                    let x = i + 9
+                    i = i * 10
+                    let x = i + 10
                     const eachday = []
                     while(i < x){
                         console.log(i)
@@ -129,17 +141,23 @@ function App() {
                     } 
                     return(
                         <div>
-                            <p className="time">{dayOfWeek(value+1)}</p>
+                            <h2>{dayOfWeek(value + 1)}</h2>
                             {eachday}
                         </div>
                     )
                 }
                 
-                return(<div className="reserve-dates"> 
-                            <EachDay value={0}/>
-                            <EachDay value={1}/>
-                            <EachDay value={2}/>
-                       </div>
+                return( <div>
+                            <div className='barber-select-top'>
+                                <h2 className='pointer dim back-button' onClick={() => {setSelectedService(null)}}>↩</h2>
+                            </div>
+                            <div className="reserve-dates">
+                                <EachDay value={0}/>
+                                <EachDay value={1}/>
+                                <EachDay value={2}/>
+                            </div>
+                        </div>
+
                 )
 
             }
@@ -166,22 +184,44 @@ function App() {
                         })
                       }).then(response => response.json())
                         .then(data => console.log(data))
+                        .catch(err => console.log(err));
+                    setreserveDone(true);
+
                 }
                 return(
-                <div className='form'>
-                    <div className='form-input'>
-                        <p className=''>Name</p>
-                        <input className='input' type="text" id="name" name="user_name" onChange={onNameChange}></input>
-                    </div >
-                    <div className='form-input'>
-                        <p>Phone Number</p>
-                        <input className='input' type="text" id="number" name="user_number" onChange={onNumberChange}></input>
+                <div>
+                    <div className='barber-select-top'>
+                        <h2 className='pointer dim back-button' onClick={() => {setReserveId(null)}}>↩</h2>
                     </div>
-                    <div className='form-input'>
-                        <p className='form-button dim ba' onClick={() => {onButtonSubmit()}}> ✔</p>
-                    </div>
+                    <div className='form'>
+                        <div className='form-input'>
+                            <p className=''>Name</p>
+                            <input className='input' type="text" id="name" name="user_name" onChange={onNameChange}></input>
+                        </div >
+                        <div className='form-input'>
+                            <p>Phone Number</p>
+                            <input className='input' type="text" id="number" name="user_number" onChange={onNumberChange}></input>
+                        </div>
+                        <div className='form-input'>
+                            <p className='form-button dim ba' onClick={() => {onButtonSubmit()}}> ✔</p>
+                        </div>
 
+                     </div>
                 </div>
+                
+                )
+            }
+
+            function FinalMessage(){
+                return(
+                    <div>
+                        <div className='barber-select-top'>
+                             <h2 className='pointer dim back-button' onClick={() => {setRoute(null)}}>↩</h2>
+                        </div>
+                        <h1>Done.</h1>
+                        <p>Thanks for co'operating with us, we are waiting for you.Have a great day.</p>
+
+                    </div>
                 )
             }
 
@@ -196,6 +236,9 @@ function App() {
             if(reserveId){
                 content = <Form/>
             }
+            if(reserveDone){
+                content = <FinalMessage/>
+            }
             
             return (
                 <div className='reserve'>
@@ -205,13 +248,88 @@ function App() {
 
 
         }
+
+        function AdminPannel(){
+            const [data,setData] = useState(null);
+            useEffect(() => {
+                fetch('http://141.11.42.106:3000/adminmasoodtable', {
+                  method: 'get',
+                  headers: {'Content-Type': 'application/json'},
+                }).then(res => res.json())
+                  .then(data => {
+                      setData(data)
+                  })    
+            }, []);
+
+
+
+            function AdminData({shift}){
+                return(
+                    <div className='admin-data'>
+                        <h3 className='admin-data-type admin-data-recieved'>{shift.time}</h3>
+                        <h3 className='admin-data-type admin-data-recieved'>{shift.usernumber}</h3>
+                        <h3 className='admin-data-type admin-data-recieved'>{shift.username}</h3>
+                        <h3 className='admin-data-type admin-data-recieved' > {shift.service}</h3>
+                        <h3 className='admin-data-type chert admin-data-recieved'>{shift.available}</h3>
+                     </div>
+
+                )
+            }
+            const rows = []
+            if(data){
+                data.map((shift,index) => {
+                    rows.push(<AdminData key ={index} shift={shift}/>)
+                })
+            }
+            function EachDay({value}){
+                let i = value
+                i = i * 10
+                let x = i + 10
+                const eachday = []
+                while(i < x){
+                    console.log(i)
+                    eachday.push(rows[i]) // rows[i] = <Dates/>
+                    i = i + 1
+                } 
+                return(
+                    <div>
+                        <h2 className='admin-day underline white'>{dayOfWeek(value)}</h2>
+                        {eachday}
+                    </div>
+                )
+            }
+
+
+
+            return(
+                <div className='admin-pannel'>
+                    <div>
+                        <div className='admin-data'>
+                            <h3 className='admin-data-type'>Time</h3>
+                            <h3 className='admin-data-type'>User Number</h3>
+                            <h3 className='admin-data-type'>User Name</h3>
+                            <h3 className='admin-data-type'> Service</h3>
+                            <h3 className='admin-data-type chert'>Reserve</h3>
+                        </div>
+                        <EachDay value={0}/>
+                        <EachDay value={1}/>
+                        <EachDay value={2}/>
+                        
+                    </div>
+                </div>
+            )
+        }
+
         let content;
         content = <Home/>
         if(route === 'reserve-1') {
             content = <Reserve/>
         }  
+        if(route === 'admin') {
+            content = <AdminPannel/>
+        }
         
-
+        
 
 
         return(
@@ -224,7 +342,7 @@ function App() {
 
     return (
         <div>
-            <Nav/>
+            <Nav setRoute={setRoute}/>
             <Middle/>
         </div>
     )
