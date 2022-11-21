@@ -1,40 +1,49 @@
 body{
     background-color: black;
+    min-height: 100vh;
+}
+.all{
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-image:    url(backgroundimg.jpg);
+  background-size:     cover;                    
+  background-repeat:   no-repeat;
+  background-position: center center;   
+  
 }
 .logo{
-    height: 11vw;
-    width: 11vw;
+    height: 7vw;
+    width: 7vw;
     padding: 1.5vh;
 }
 
-.location{
-    height: 35px;
-    width: 20px;
-    padding: 1vh;
-}
+
 
 .nav{
     height: 20%; 
+    background:rgba(255,255,255, 0.8);
     display: flex;
     justify-content: center;
     align-items: center;
 }
 .ShopName{
-    width: 35vw;
+    width: 25vw;
 }
 
 .admin{
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
+  color:white;
+  font-size: 10px;
   margin-left: 20vw;
-  padding: 25px;
-  border-radius: 50%;
-  width: 100px;
-  height: 100px;
-  background:rgba(10, 10, 10, 0.8);
-  border: 3px solid white;
+  padding: 15px;
+  border-radius: 10%;
+  width: 90px;
+  height: 25px;
+  background:rgba(0,0,0, 0.8);
+  border: 3px solid black;
 }
 
 .admin-pannel{
@@ -79,13 +88,7 @@ body{
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    height: auto;
-    background-image:    url(backgroundimg.jpg);
-    /* filter: blur(8px);
-    -webkit-filter: blur(1px); */
-    background-size:     cover;                      /* <------ */
-    background-repeat:   no-repeat;
-    background-position: center center;    
+ 
   }
   
   .about-text{
@@ -95,7 +98,7 @@ body{
     font-weight: bold;
     border: 3px solid #f1f1f1;
     text-align: center;
-    font-size: 3vw;
+    font-size: 2vw;
     padding: 25px;
     margin: 25px;
   }
@@ -110,8 +113,8 @@ body{
   }
 
   .type1 {
-    width: 25vw;
-    height: 25vw;
+    width: 15vw;
+    height: 15vw;
     background:rgb(255,255,255, 0.8);
     border: 3px solid white;
   }
@@ -145,10 +148,10 @@ body{
 }
 
 .back-button{
-  width: 20vw;
-  font-size: 30px;
-  background-color: rgb(0,0,0, 0.5);
+  margin-right: auto;
+  width: 34px;
   padding: 5px;
+  
 }
 
 .service{
@@ -163,12 +166,24 @@ body{
   justify-self: flex-start;
 }
 
+.reserve-page{
+  margin: 10px;
+  padding: 10px;
+}
+.reserve-page h2{
+  font-size: 12px;
+}
+
 .reserve-dates{
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   flex-direction: row-reverse;
 }
+.reserve-dates p{
+  font-size: 20px;
+}
+
 .time{
   font-size: 1.5vw;
   padding: 10px;
@@ -203,25 +218,88 @@ body{
   cursor: pointer;
   background-color: rgb(0,0,0, 0.5);
 }
+.footer{
+  margin-top: auto;
+  background-color:rgb(255,255,255, 0.8);
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-top{
+  display: flex;
+  color: black;
+}
+.footer-top-box{
+  display: flex;
+  align-items: center;
+  width: 50%;
+}
+
+.footer-top-box p {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 5px;
+  padding-left: 5px;
+}
+
+
+.phone-number{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 49vw;
+}
+.footer-top-box-2{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+}
+
+.footer-top-box-2 img {
+  width: 25px;
+  
+}
+.arrow{
+  width: 18px;
+  height: 18px;
+}
+.adress{
+  margin-left: auto;
+  padding-right: 24px;
+}
+.adress p {
+  font-weight: bold;
+  padding: 0px;
+}
+.copyright{
+  background-color: rgb(0,0,0, 0.75);
+  color: #f1f1f1;
+  font-size: 10px;
+}
 
 
   @media only screen and (max-width: 600px) {
     .logo{
-        height: 25vw;
-        width: 25vw;
+        height: 10vw;
+        width: 10vw;
         padding: 1.5vh;
     }
     .type1 {
         width: 40vw;
         height: 40vw;
       }
-    .middle{
-      height: 175vh;
-        background-size:cover;                      /* <------ */  
+    .middle{                  /* <------ */  
       }
+    .back-button{
+      margin-right: auto;
+      width: 24px;
+      padding: 5px;
+        
+      }      
 
     .about-text{
-        font-size: 1.5em;
+        font-size: 20px;
     }
     .barber{
       font-size: 3.5vw;
@@ -235,10 +313,15 @@ body{
     .time{
       font-size: 3.5vw;
     }
+    .reserve-dates p {
+      font-size: 10px;
+    }
     .admin{
       margin-left: 10vw;
-      width: 20px;
+      width: 70px;
       height: 20px;
+      padding: 8px;
+      font-size: 6px;
     }
     .admin-text{
       padding-bottom: 2px;
@@ -254,10 +337,23 @@ body{
       padding-left: 1px;
       margin: 5px;
     }
+    .footer-top-box p {
+      font-size: 10px;
+      font-weight: bold;
+    }
+    .footer-top-box-2{
+      font-size: 10px;
+      font-weight: bold;
+      color: black;
+    }
+    .copyright{
+      background-color: rgb(0,0,0, 0.75);
+      color: #f1f1f1;
+      font-size: 8px;
+    }
     
   }
  
-
 
 
 

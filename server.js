@@ -39,6 +39,17 @@ function timeGenerator(date) {
         
 }
 
+const masoodAdmin = {number:09359616266, password: 4321};
+
+app.post('/adminlogin' , (request,response) => {
+     const {usernumber, userpassword} = request.body
+     if(usernumber === masoodAdmin.number && userpassword === masoodAdmin.password){
+         response.json('True')
+     }  else{
+         response.json('false')
+     }
+})
+
 
 
 
@@ -61,6 +72,6 @@ app.put('/masoodreserve', (request,response) => {
         .catch(e => console.error(e.stack))
 })
 
-app.listen(3000,() => {
-    console.log('app is running on port 3000')
+app.listen(3005,() => {
+    console.log('app is running on port 3005')
 })

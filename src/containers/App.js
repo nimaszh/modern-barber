@@ -1,10 +1,14 @@
 import './App.css'
 import Nav from '../components/Nav/Nav.js'
 import ReserveImg from './Reserve.png'
+import Location from './location.png'
 import {useState , useEffect} from 'react'
+import ArrowImg from './arrow.png'
+import CloseImg from './close.png'
+
 
 function App() {
-    const [route, setRoute] = useState(null);
+    const [route, setRoute] = useState('home');
     function dayOfWeek(dayFromNow) {
         const week = ['Sunday' ,
                   'Monday',
@@ -57,7 +61,7 @@ function App() {
 
                     <div >
                         <div className='barber-select-top'>
-                            <h2 className='pointer dim back-button' onClick={() => {setRoute(null)}}>↩</h2>
+                            <img src={CloseImg} alt='close' className='pointer dim back-button' onClick={() => {setRoute(null)}}></img>
                         </div>
                         <h1>Chose barber</h1>
                         <div className='barber-select'>
@@ -72,15 +76,15 @@ function App() {
 
                 function Service({title, time}){
                     return(
-                        <div className='barber dim ba pointer service ma1' >
+                        <div className='barber dim ba pointer service ma1'  onClick={() => {setSelectedService(String(time))}}>
                             <p >{title}</p>
-                            <p className='service-time bl' onClick={() => {setSelectedService(String(time)); console.log(selectedService)}}>{time}</p>
+                            <p className='service-time bl' >{time}</p>
                         </div>
                     )}
                 return(
                     <div>
                         <div className='barber-select-top'>
-                            <h2 className='pointer dim back-button' onClick={() => {chooseBarber(null)}}>↩</h2>
+                        <img src={CloseImg} alt='close' className='pointer dim back-button' onClick={() => {chooseBarber(null)}}></img>
                         </div>
                         <h3>Choose Service</h3>
                         <div className='barber-select'>
@@ -112,13 +116,13 @@ function App() {
                                 <p className="white time bl br pointer dim light-green " onClick={() => {setReserveId(shift.id)}}>{shift.time}</p>
                             </>
                         )
-                    } else{
+                    }
                         return(
                             <>
                                 <p className="white time bl br pointer dim red">x</p>
                             </>
                         )
-                    }
+                   
                 }
                 
                 
@@ -147,9 +151,9 @@ function App() {
                     )
                 }
                 
-                return( <div>
+                return( <div className='reserve-page'>
                             <div className='barber-select-top'>
-                                <h2 className='pointer dim back-button' onClick={() => {setSelectedService(null)}}>↩</h2>
+                                <img src={CloseImg} alt='close' className='pointer dim back-button' onClick={() => {setSelectedService(null)}}></img>
                             </div>
                             <div className="reserve-dates">
                                 <EachDay value={0}/>
@@ -163,8 +167,9 @@ function App() {
             }
 
             function Form(){
-                const [userName,setUserName] = useState('');
-                const [userNumber,setUserNumber] = useState('');
+                const [userName,setUserName] = useState(null);
+                const [userNumber,setUserNumber] = useState(null);
+                const [falseAttempt,setFalseAttempt] = useState(false);
                 function onNameChange(event){
                     setUserName(event.target.value)
                 }
@@ -172,26 +177,40 @@ function App() {
                 function onNumberChange(event){
                     setUserNumber(event.target.value)
                 }
+                function Error(){
+                    return(<><h1 className='red'>Please enter something!</h1></>)
+                }
+                
                 function onButtonSubmit() {
-                    fetch('http://141.11.42.106:3000/masoodreserve', {
-                        method: 'put',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({
-                          id: Number(reserveId),
-                          name: userName,
-                          number: Number(userNumber) ,
-                          service: selectedService,
-                        })
-                      }).then(response => response.json())
-                        .then(data => console.log(data))
-                        .catch(err => console.log(err));
-                    setreserveDone(true);
+                    if(userName === null || userNumber === null){
+                        setFalseAttempt(true)
+                    } else {
+                        fetch('http://141.11.42.106:3000/masoodreserve', {
+                            method: 'put',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify({
+                              id: Number(reserveId),
+                              name: userName,
+                              number: Number(userNumber) ,
+                              service: selectedService,
+                            })
+                          }).then(response => response.json())
+                            .then(data => console.log(data))
+                            .catch(err => console.log(err));
+                        setreserveDone(true);
+                    }
 
                 }
+
+                let falseAlarm;
+                if (falseAttempt === true){
+                           falseAlarm = <Error/>
+                }
+
                 return(
                 <div>
                     <div className='barber-select-top'>
-                        <h2 className='pointer dim back-button' onClick={() => {setReserveId(null)}}>↩</h2>
+                        <img src={CloseImg} alt='close' className='pointer dim back-button' onClick={() => {setReserveId(null)}}></img>
                     </div>
                     <div className='form'>
                         <div className='form-input'>
@@ -202,7 +221,9 @@ function App() {
                             <p>Phone Number</p>
                             <input className='input' type="text" id="number" name="user_number" onChange={onNumberChange}></input>
                         </div>
+                        {falseAlarm}
                         <div className='form-input'>
+
                             <p className='form-button dim ba' onClick={() => {onButtonSubmit()}}> ✔</p>
                         </div>
 
@@ -216,7 +237,7 @@ function App() {
                 return(
                     <div>
                         <div className='barber-select-top'>
-                             <h2 className='pointer dim back-button' onClick={() => {setRoute(null)}}>↩</h2>
+                            <img src={CloseImg} alt='close' className='pointer dim back-button' onClick={() => {setRoute('home')}}></img>
                         </div>
                         <h1>Done.</h1>
                         <p>Thanks for co'operating with us, we are waiting for you.Have a great day.</p>
@@ -225,6 +246,7 @@ function App() {
                 )
             }
 
+            
             
             let content = <BarberSelect/>
             if(barber) {
@@ -319,16 +341,74 @@ function App() {
                 </div>
             )
         }
+        function AdminLogin(){
+            const [password,setPassword] = useState('');
+            const [userNumber,setUserNumber] = useState('');
+            const [falseAttempt, setFalseAttempt] = useState(false)
+            function onPasswordChange(event){
+                setPassword(event.target.value)
+            }
+            
+            function onNumberChange(event){
+                setUserNumber(event.target.value)
+            }
+            function onButtonSubmit() {
+                fetch('http://141.11.42.106:3000/adminlogin', {
+                    method: 'post',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                      usernumber: Number(userNumber) ,
+                      userpassword: Number(password),
+                    })
+                  }).then(response => response.json())
+                    .then(data => {if(data === 'True') {
+                        setRoute('adminpanel');
+                    }else{
+                        console.log(data)
+                        setFalseAttempt(true)
+                    }})
+                    .catch(err => err.json('wrong'));
+
+            }
+
+            let falseAlarm;
+            if (falseAttempt === true){
+                       falseAlarm = <h3 className='white underline'>Wrong Information, try again.</h3>
+            }
+            return(
+                <div>
+                    <div className='form'>
+                        <div className='form-input'>
+                            <p className='white'>Phone Number</p>
+                            <input className='input' type="text" id="name" name="user_name" onChange={onNumberChange}></input>
+                        </div >
+                        <div className='form-input'>
+                            <p className="white">Password</p>
+                            <input className='input' type="password" id="number" name="user_number" onChange={onPasswordChange}></input>
+                            {falseAlarm}
+                        </div>
+                        <div className='form-input'>
+                            <p className='form-button dim ba' onClick={() => {onButtonSubmit()}}> Enter</p>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
 
         let content;
         content = <Home/>
+        if(route==='home'){
+            content = <Home/>
+        }
         if(route === 'reserve-1') {
             content = <Reserve/>
         }  
         if(route === 'admin') {
+            content = <AdminLogin/>
+        }
+        if(route === 'adminpanel') {
             content = <AdminPannel/>
         }
-        
         
 
 
@@ -340,10 +420,50 @@ function App() {
 
     }
 
+    function Footer(){
+        const openInNewTab = url => {
+            window.open(url, '_blank', 'noopener,noreferrer');
+          };
+        return(
+            <footer className='footer'>
+                <div className='footer-top'>
+                    <div className='footer-top-box'>
+                        <div>
+                            <div className='phone-number'>
+                                <img src={ArrowImg} className='arrow'></img>
+                                <p>Masood : 09359616266</p>
+                            </div>
+                            <div className='phone-number '>
+                                <img src={ArrowImg} className='arrow'></img>
+                                <p>Tahaa   : 09104511968</p>
+                            </div>
+                            <div className='phone-number' >
+                                <img src={ArrowImg} className='arrow'></img>
+                                <p>Shop : 02144713242</p>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div className='footer-top-box-2 pointer dim'>
+                    <p onClick={() => {openInNewTab('https://www.google.com/maps/place/%DA%AF%D9%84%D9%81%D8%B1%D9%88%D8%B4%DB%8C+%D9%85%D9%84%DB%8C%DA%A9%D8%A7%E2%80%AD/@35.7473361,51.2633157,21z/data=!4m7!3m6!1s0x3f8dfbc8d8a7ecf5:0x21d072ae5410de90!4b1!8m2!3d35.7473574!4d51.2632507!16s%2Fg%2F11h3qt9pmv')}}>آدرس : میدان المپیک - خیابان ایرانیان - انتهای بن بست ایرانیان - پیرایش برنا</p>
+                        <img src={Location}></img>
+                    </div>
+                </div>
+                <div className='copyright'>
+
+                   © 2022 RG Comnpany All rights reserved.
+                </div>
+
+
+            </footer>
+        )
+    }
+
     return (
-        <div>
+        <div className='all'>
             <Nav setRoute={setRoute}/>
             <Middle/>
+            <Footer/>
         </div>
     )
 }
