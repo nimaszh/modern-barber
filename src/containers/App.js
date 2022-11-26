@@ -100,7 +100,7 @@ function App() {
             function ReserveDates() {
                 const [data,setData] = useState(null);
                 useEffect(() => {
-                    fetch('141.11.42.106:30/masoodtable', {
+                    fetch('http://localhost:3005/masoodtable', {
                       method: 'get',
                       headers: {'Content-Type': 'application/json'},
                     }).then(res => res.json())
@@ -192,7 +192,7 @@ function App() {
                     if(userName === null || userNumber === null){
                         setFalseAttempt(true)
                     } else {
-                        fetch('http://141.11.42.106:30/sendsms', {
+                        fetch('http://localhost:3005/sendsms', {
                             method: 'POST',
                             headers: {'Content-Type': 'application/json'},
                             body: JSON.stringify({
@@ -211,7 +211,7 @@ function App() {
                                         if(userName === null || userNumber === null){
                         setFalseAttempt(true)
                     } else {
-                        fetch('http://141.11.42.106:30/authentication', {
+                        fetch('http://localhost:3005/authentication', {
                             method: 'POST',
                             headers: {'Content-Type': 'application/json'},
                             body: JSON.stringify({
@@ -320,7 +320,7 @@ function App() {
         function AdminPannel(){
             const [data,setData] = useState(null);
             useEffect(() => {
-                fetch('http://141.11.42.106:30/adminmasoodtable', {
+                fetch('http://localhost:3005/adminmasoodtable', {
                   method: 'get',
                   headers: {'Content-Type': 'application/json'},
                 }).then(res => res.json())
@@ -399,7 +399,7 @@ function App() {
                 setUserNumber(event.target.value)
             }
             function onButtonSubmit() {
-                fetch('http://141.11.42.106:30/adminlogin', {
+                fetch('http://localhost:3005/adminlogin', {
                     method: 'post',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
