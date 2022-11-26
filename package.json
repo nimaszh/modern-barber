@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^13.5.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "melipayamak": "^1.0.5",
     "nodemon": "^2.0.20",
     "path": "^0.12.7",
     "pg": "^8.8.0",

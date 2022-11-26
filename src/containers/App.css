@@ -198,6 +198,11 @@ body{
   align-items: center;
   background-color: rgba(27, 18, 18, 0.2);
 }
+.auth{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .form-input{
   padding: 2vw;
 }
@@ -207,12 +212,24 @@ body{
   width: 50vw;
   height: 40px;
 }
+.auth-input{
+  font-size: 20px;
+  background-color: rgba(130, 199, 199, 0.2);
+  width: 25vw;
+  height: 40px;
+}
+.auth-img{
+  background-color: rgb(255,255,255, 0.4);
+  height: 38px;
+  padding: 2px;
+  margin: 10px;
+}
 .form-button{
   display: flex;
   justify-content:center ;
   align-items: center;
   font-size: 25px;
-  color: green;
+  color: white;
   height: 45px;
   width: 125px;
   cursor: pointer;
@@ -315,6 +332,18 @@ body{
     }
     .reserve-dates p {
       font-size: 10px;
+    }
+    .form-button{
+      display: flex;
+      justify-content:center ;
+      align-items: center;
+      font-size: 16px;
+      color: white;
+      height: 32px;
+      width: 80px;
+    }
+    .auth-img{
+      height: 24px;
     }
     .admin{
       margin-left: 10vw;

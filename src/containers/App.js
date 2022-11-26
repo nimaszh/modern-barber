@@ -5,6 +5,7 @@ import Location from './location.png'
 import {useState , useEffect} from 'react'
 import ArrowImg from './arrow.png'
 import CloseImg from './close.png'
+import AuthImg from './auth.png'
 
 
 function App() {
@@ -99,7 +100,7 @@ function App() {
             function ReserveDates() {
                 const [data,setData] = useState(null);
                 useEffect(() => {
-                    fetch('http://141.11.42.106:3000/masoodtable', {
+                    fetch('141.11.42.106:30/masoodtable', {
                       method: 'get',
                       headers: {'Content-Type': 'application/json'},
                     }).then(res => res.json())
@@ -169,6 +170,9 @@ function App() {
             function Form(){
                 const [userName,setUserName] = useState(null);
                 const [userNumber,setUserNumber] = useState(null);
+                const [authNumber,setAuthNumber] = useState(null)
+                const [sendAuth, setSendAuth] = useState(false)
+                const [falseAuth,setFalseAuth] = useState(false)
                 const [falseAttempt,setFalseAttempt] = useState(false);
                 function onNameChange(event){
                     setUserName(event.target.value)
@@ -177,34 +181,70 @@ function App() {
                 function onNumberChange(event){
                     setUserNumber(event.target.value)
                 }
+                function onAuthChange(event){
+                    setAuthNumber(event.target.value)
+                }
                 function Error(){
                     return(<><h1 className='red'>Please enter something!</h1></>)
                 }
                 
-                function onButtonSubmit() {
+                function onSmsButtonSubmit() {
                     if(userName === null || userNumber === null){
                         setFalseAttempt(true)
                     } else {
-                        fetch('http://141.11.42.106:3000/masoodreserve', {
-                            method: 'put',
+                        fetch('http://141.11.42.106:30/sendsms', {
+                            method: 'POST',
                             headers: {'Content-Type': 'application/json'},
                             body: JSON.stringify({
                               id: Number(reserveId),
                               name: userName,
                               number: Number(userNumber) ,
-                              service: selectedService,
                             })
                           }).then(response => response.json())
                             .then(data => console.log(data))
                             .catch(err => console.log(err));
-                        setreserveDone(true);
+                        setSendAuth(true)
                     }
 
+                }
+                function onButtonSubmit(){
+                                        if(userName === null || userNumber === null){
+                        setFalseAttempt(true)
+                    } else {
+                        fetch('http://141.11.42.106:30/authentication', {
+                            method: 'POST',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify({
+                              id: Number(reserveId),
+                              name: userName,
+                              number: Number(userNumber) ,
+                              authcode : Number(authNumber),
+                              service: String(selectedService)
+                            })
+                          }).then(response => response.json())
+                            .then(data => {if(data==='done'){
+                                setreserveDone(true)
+                            }else{
+                                setFalseAuth(true)
+                            }})
+                            .catch(err => console.log(err));
+                        // setreserveDone(true)
+                    }
+
+                
                 }
 
                 let falseAlarm;
                 if (falseAttempt === true){
                            falseAlarm = <Error/>
+                }
+                let authMessage;
+                if(sendAuth){
+                    authMessage = <p>.کد 5 رقمی برای شما ارسال شد</p>
+                }
+                let wrongAuth;
+                if(falseAuth){
+                    wrongAuth = <p> .کد وارد شده صحیح نمیباشد</p>
                 }
 
                 return(
@@ -221,6 +261,12 @@ function App() {
                             <p>Phone Number</p>
                             <input className='input' type="text" id="number" name="user_number" onChange={onNumberChange}></input>
                         </div>
+                        <div className=' auth form-input'>
+                            <img src={AuthImg} className='auth-img dim pointer' onClick={() => {onSmsButtonSubmit()}}></img>
+                            <input className='auth-input' type="text" id="authcode" name="authentication" onChange={onAuthChange} ></input>
+                        </div>
+                        {wrongAuth}
+                        {authMessage}
                         {falseAlarm}
                         <div className='form-input'>
 
@@ -274,7 +320,7 @@ function App() {
         function AdminPannel(){
             const [data,setData] = useState(null);
             useEffect(() => {
-                fetch('http://141.11.42.106:3000/adminmasoodtable', {
+                fetch('http://141.11.42.106:30/adminmasoodtable', {
                   method: 'get',
                   headers: {'Content-Type': 'application/json'},
                 }).then(res => res.json())
@@ -353,7 +399,7 @@ function App() {
                 setUserNumber(event.target.value)
             }
             function onButtonSubmit() {
-                fetch('http://141.11.42.106:3000/adminlogin', {
+                fetch('http://141.11.42.106:30/adminlogin', {
                     method: 'post',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({
