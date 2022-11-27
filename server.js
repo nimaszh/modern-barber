@@ -140,9 +140,17 @@ app.put('/masoodreserve', (request,response) => {
 })
 app.post('/masoodreservenew', (request,response) => {
     const {name,number} = request.body
-    pool.query('INSERT INTO users(usernumber) VALUES($1)' [number])
+    pool.query('INSERT INTO users(usernumber,username) VALUES($1,$2)' [number,name])
         .then(res => {response.json('done')})
         .catch(e => {response.json('already exist')})
+})
+
+app.post('/adminclear' , (request,response) => {
+    const {id} = request.body
+    const code= Number(12345)
+    pool.query('UPDATE masoodbarber SET available=$1, username=$2, usernumber=$3,service=$4,authcode=$5 WHERE id=$6 RETURNING *' ,[true,null,null,null,code,id])
+    .then(res => {response.json(res.rows[0])})
+    .catch(e => response.status(400).json('cant'))
 })
 app.listen(3005,() => {
     console.log('app is running on port 3005')

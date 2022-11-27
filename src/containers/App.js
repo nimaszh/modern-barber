@@ -6,6 +6,7 @@ import {useState , useEffect} from 'react'
 import ArrowImg from './arrow.png'
 import CloseImg from './close.png'
 import AuthImg from './auth.png'
+import MinusImg from './minus.png'
 
 
 function App() {
@@ -332,13 +333,70 @@ function App() {
 
 
             function AdminData({shift}){
+                const [info, setInfo] = useState(null)
+                useEffect(() => {
+                    setInfo(shift)
+                }, [])
+
+                let dataTime;
+                let dataUserNumber;
+                let dataUserName;
+                let dataService;
+                let dataId;
+                let dataAvailable;
+
+                if(info){
+                    console.log('bah bah ajab chizi shod');
+                    console.log(info)
+                    dataTime = info.time
+                    dataUserNumber = info.usernumber
+                    dataUserName = info.username
+                    dataService = info.service
+                    dataId = info.id
+                    dataAvailable = info.available
+                }
+                function clearButtonClock(){
+
+                    if(info){
+                        fetch('http://141.11.42.106:3005/adminclear', {
+                            method: 'post',
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify({
+                                id: Number(dataId)
+                              })
+                        }).then(res => {res.json()})
+                          .then(info => {setInfo(info)})
+                          .catch(e => {console.log(e)})
+                        console.log('hi')
+                    }
+
+                }
+
+                function Button(){
+                    if(dataAvailable){
+                        return(<> <h3 className=' admin-res-button admin-data-recieved blank light-green'>-</h3> </>)
+                    } else {
+                        return(<div className='admin-res-button dim pointer admin-data-recieved'>
+                                <img  src={MinusImg} className='  minus' onClick={() => {clearButtonClock()}}></img>
+                               </div> )
+                    }
+
+
+                }
+                let back;
+                if(!shift.available){
+                    back = 'reserved'
+                }
+                
+
+
                 return(
-                    <div className='admin-data'>
-                        <h3 className='admin-data-type admin-data-recieved'>{shift.time}</h3>
-                        <h3 className='admin-data-type admin-data-recieved'>{shift.usernumber}</h3>
-                        <h3 className='admin-data-type admin-data-recieved'>{shift.username}</h3>
-                        <h3 className='admin-data-type admin-data-recieved' > {shift.service}</h3>
-                        <h3 className='admin-data-type chert admin-data-recieved'>{shift.available}</h3>
+                    <div className={`admin-data ${back}`} >
+                        <h3 className='admin-data-type admin-data-recieved'>{dataTime}</h3>
+                        <h3 className='admin-data-type admin-data-recieved'>{dataUserNumber}</h3>
+                        <h3 className='admin-data-type admin-data-recieved'>{dataUserName}</h3>
+                        <h3 className='admin-data-type admin-data-recieved' > {dataService}</h3>
+                        <Button/>
                      </div>
 
                 )
